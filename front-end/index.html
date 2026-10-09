@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Interview Practice Tracker</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <header class="site-header">
+    <div class="header-inner container">
+      <div class="header-brand">
+        <svg class="brand-icon" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <rect x="3" y="3" width="18" height="18" rx="3" stroke="currentColor" stroke-width="1.5"/>
+          <path d="M7 8h10M7 12h7M7 16h4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+        </svg>
+        <div>
+          <h1 class="brand-name">Interview Practice Tracker</h1>
+          <p class="brand-subtitle">Track your practice. Measure your progress.</p>
+        </div>
+      </div>
+      <div class="save-badge" id="save-badge" aria-live="polite">
+        <span class="save-dot" id="save-dot"></span>
+        <span id="save-text">Saved locally</span>
+      </div>
+    </div>
+  </header>
+
+  <main class="container main-content">
+
+    <section aria-labelledby="dashboard-heading" class="section">
+      <h2 id="dashboard-heading" class="section-title">Dashboard</h2>
+      <div class="stats-grid">
+
+        <article class="stat-card">
+          <div class="stat-label">Total Questions</div>
+          <div class="stat-value" id="stat-total">0</div>
+          <div class="stat-sub">in your tracker</div>
+        </article>
+
+        <article class="stat-card">
+          <div class="stat-label">DSA Completed</div>
+          <div class="stat-value" id="stat-dsa">0</div>
+          <div class="stat-sub" id="stat-dsa-sub">of 0 DSA questions</div>
+        </article>
+
+        <article class="stat-card">
+          <div class="stat-label">Interview Completed</div>
+          <div class="stat-value" id="stat-interview">0</div>
+          <div class="stat-sub" id="stat-interview-sub">of 0 interview questions</div>
+        </article>
+
+        <article class="stat-card">
+          <div class="stat-label">Machine Coding</div>
+          <div class="stat-value stat-value--status" id="stat-machine">—</div>
+          <div class="stat-sub" id="stat-machine-sub">no machine coding questions</div>
+        </article>
+
+      </div>
+
+      <div class="progress-section">
+        <div class="progress-header">
+          <span class="progress-label">Overall Completion</span>
+          <span class="progress-percent" id="progress-percent">0%</span>
+        </div>
+        <div class="progress-track" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" aria-label="Overall completion progress" id="progress-track">
+          <div class="progress-fill" id="progress-fill" style="width: 0%"></div>
+        </div>
+      </div>
+    </section>
+
+    <section aria-labelledby="form-heading" class="section">
+      <h2 id="form-heading" class="section-title">Add a Question</h2>
+      <form id="question-form" class="question-form" novalidate>
+
+        <div class="form-group form-group--full">
+          <label class="form-label" for="q-title">Question Title <span class="required-mark" aria-hidden="true">*</span></label>
+          <input
+            class="form-input"
+            type="text"
+            id="q-title"
+            name="title"
+            placeholder="e.g. Reverse a linked list, Two Sum, Explain closures…"
+            autocomplete="off"
+            aria-required="true"
+            aria-describedby="title-error"
+          />
+          <span class="field-error" id="title-error" role="alert" aria-live="polite"></span>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label" for="q-category">Category</label>
+            <select class="form-select" id="q-category" name="category">
+              <option value="DSA">DSA</option>
+              <option value="Git & GitHub">Git &amp; GitHub</option>
+              <option value="Full-Stack Technical">Full-Stack Technical</option>
+              <option value="Machine Coding">Machine Coding</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="q-difficulty">Difficulty</label>
+            <select class="form-select" id="q-difficulty" name="difficulty">
+              <option value="Easy">Easy</option>
+              <option value="Medium">Medium</option>
+              <option value="Hard">Hard</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="q-status">Status</label>
+            <select class="form-select" id="q-status" name="status">
+              <option value="Pending">Pending</option>
+              <option value="In Progress">In Progress</option>
+              <option value="Completed">Completed</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-actions">
+          <button type="submit" class="btn btn--primary" id="add-btn">
+            <svg viewBox="0 0 20 20" fill="none" aria-hidden="true" width="16" height="16">
+              <path d="M10 4v12M4 10h12" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+            </svg>
+            Add Question
+          </button>
+        </div>
+
+      </form>
+    </section>
+
+    <section aria-labelledby="questions-heading" class="section">
+      <h2 id="questions-heading" class="section-title">Questions</h2>
+
+      <div class="filters-bar">
+        <div class="search-wrap">
+          <svg class="search-icon" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+            <circle cx="9" cy="9" r="5.5" stroke="currentColor" stroke-width="1.5"/>
+            <path d="M13.5 13.5L17 17" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+          </svg>
+          <input
+            class="form-input search-input"
+            type="search"
+            id="filter-search"
+            placeholder="Search questions…"
+            aria-label="Search questions by title"
+          />
+        </div>
+
+        <select class="form-select filter-select" id="filter-category" aria-label="Filter by category">
+          <option value="">All Categories</option>
+          <option value="DSA">DSA</option>
+          <option value="Git & GitHub">Git &amp; GitHub</option>
+          <option value="Full-Stack Technical">Full-Stack Technical</option>
+          <option value="Machine Coding">Machine Coding</option>
+        </select>
+
+        <select class="form-select filter-select" id="filter-status" aria-label="Filter by status">
+          <option value="">All Statuses</option>
+          <option value="Pending">Pending</option>
+          <option value="In Progress">In Progress</option>
+          <option value="Completed">Completed</option>
+        </select>
+
+        <select class="form-select filter-select" id="filter-difficulty" aria-label="Filter by difficulty">
+          <option value="">All Difficulties</option>
+          <option value="Easy">Easy</option>
+          <option value="Medium">Medium</option>
+          <option value="Hard">Hard</option>
+        </select>
+
+        <button class="btn btn--ghost" id="clear-filters-btn" type="button">
+          <svg viewBox="0 0 20 20" fill="none" aria-hidden="true" width="14" height="14">
+            <path d="M5 5l10 10M15 5L5 15" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+          </svg>
+          Clear Filters
+        </button>
+      </div>
+
+      <div id="question-list" role="list" aria-label="Question list"></div>
+
+      <div id="empty-state-no-questions" class="empty-state" hidden>
+        <svg viewBox="0 0 48 48" fill="none" aria-hidden="true" class="empty-icon">
+          <rect x="6" y="6" width="36" height="36" rx="6" stroke="currentColor" stroke-width="2"/>
+          <path d="M16 20h16M16 28h10" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+          <path d="M30 30l8 8" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+          <circle cx="34" cy="34" r="5" stroke="currentColor" stroke-width="2"/>
+          <path d="M32 34h4M34 32v4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+        </svg>
+        <p class="empty-title">No questions yet</p>
+        <p class="empty-desc">Use the form above to add your first practice question.</p>
+      </div>
+
+      <div id="empty-state-no-results" class="empty-state" hidden>
+        <svg viewBox="0 0 48 48" fill="none" aria-hidden="true" class="empty-icon">
+          <circle cx="21" cy="21" r="12" stroke="currentColor" stroke-width="2"/>
+          <path d="M30 30l10 10" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+          <path d="M17 21h8M21 17v8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+          <path d="M16 25l10-10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" opacity=".4"/>
+        </svg>
+        <p class="empty-title">No matching questions</p>
+        <p class="empty-desc">Try different search terms or clear the active filters.</p>
+      </div>
+
+    </section>
+
+  </main>
+
+  <div id="confirm-dialog" class="dialog-overlay" role="dialog" aria-modal="true" aria-labelledby="dialog-title" hidden>
+    <div class="dialog-box">
+      <h3 class="dialog-title" id="dialog-title">Delete question?</h3>
+      <p class="dialog-body" id="dialog-body">This action cannot be undone.</p>
+      <div class="dialog-actions">
+        <button class="btn btn--ghost" id="dialog-cancel">Cancel</button>
+        <button class="btn btn--danger" id="dialog-confirm">Delete</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
